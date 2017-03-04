@@ -12,4 +12,14 @@ public class VendingMachineTest {
 
         assertEquals("INSERT COIN", subject.readDisplay());
     }
+
+    @Test
+    public void whenAnInvalidCoinIsInserted_theCoinIsSentToCoinReturn() {
+        VendingMachine subject = new VendingMachine();
+        subject.start();
+
+        subject.insertCoin();
+
+        assertEquals(1, subject.getCoinReturnContents().size());
+    }
 }
