@@ -90,4 +90,13 @@ public class VendingMachineTest {
         assertEquals("PRICE $0.65", subject.readDisplay());
         assertEquals("INSERT COIN", subject.readDisplay());
     }
+
+    @Test
+    public void whenTheDisplayIsCheckedASecondTime_afterDisplayingThePriceOfAnItem_withMoneyInserted_itReadsTheAmountInserted() {
+        subject.insertCoin("QUARTER");
+        subject.pressButton("CANDY");
+
+        assertEquals("PRICE $0.65", subject.readDisplay());
+        assertEquals("$0.25", subject.readDisplay());
+    }
 }
