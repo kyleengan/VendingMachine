@@ -75,4 +75,11 @@ public class VendingMachineTest {
 
         assertEquals("PRICE $0.50", subject.readDisplay());
     }
+
+    @Test
+    public void whenTheButtonForCandyIsPressed_theDisplayShowsTheCorrectPrice() {
+        subject.pressButton("CANDY");
+
+        assertEquals("PRICE $0.65", subject.readDisplay());
+    }
 }

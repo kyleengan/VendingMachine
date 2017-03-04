@@ -8,6 +8,7 @@ public class VendingMachine {
     private static final String DIME = "DIME";
     private static final String COLA = "COLA";
     private static final String CHIPS = "CHIPS";
+    private static final String CANDY = "CANDY";
 
     private String display;
     private ArrayList<String> coinReturnContents;
@@ -48,6 +49,8 @@ public class VendingMachine {
             display = "PRICE $1.00";
         } else if (product.equals(CHIPS)) {
             display = "PRICE $0.50";
+        } else if (product.equals(CANDY)) {
+            display = "PRICE $0.65";
         }
     }
 }
