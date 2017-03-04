@@ -10,15 +10,15 @@ public class VendingMachine {
         coinReturnContents = new ArrayList<String>();
     }
 
-    public String readDisplay() {
-        return display;
-    }
-
     public void insertCoin() {
         coinReturnContents.add("Coin.");
     }
 
     public ArrayList<String> getCoinReturnContents() {
         return coinReturnContents;
+    }
+
+    public String readDisplay() {
+        return display;
     }
 }
