@@ -6,6 +6,7 @@ public class VendingMachine {
     private static final String QUARTER = "QUARTER";
     private static final String NICKEL = "NICKEL";
     private static final String DIME = "DIME";
+    private static final String COLA = "COLA";
 
     private String display;
     private ArrayList<String> coinReturnContents;
@@ -39,5 +40,11 @@ public class VendingMachine {
 
     public String readDisplay() {
         return display;
+    }
+
+    public void pressButton(String product) {
+        if (product.equals(COLA)) {
+            display = "PRICE $1.00";
+        }
     }
 }
