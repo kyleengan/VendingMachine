@@ -7,6 +7,7 @@ public class VendingMachine {
     private static final String NICKEL = "NICKEL";
     private static final String DIME = "DIME";
     private static final String COLA = "COLA";
+    private static final String CHIPS = "CHIPS";
 
     private String display;
     private ArrayList<String> coinReturnContents;
@@ -45,6 +46,8 @@ public class VendingMachine {
     public void pressButton(String product) {
         if (product.equals(COLA)) {
             display = "PRICE $1.00";
+        } else if (product.equals(CHIPS)) {
+            display = "PRICE $0.50";
         }
     }
 }
