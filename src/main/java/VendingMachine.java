@@ -6,19 +6,23 @@ public class VendingMachine {
     private static final String QUARTER = "QUARTER";
     private static final String NICKEL = "NICKEL";
     private static final String DIME = "DIME";
-    private static final String COLA = "COLA";
-    private static final String CHIPS = "CHIPS";
-    private static final String CANDY = "CANDY";
+
 
     private String display;
     private ArrayList<String> coinReturnContents;
     private double amountInserted;
+    private NumberFormat currencyFormat;
+    private ProductManager productManager;
 
 
     public void start() {
-        display = "INSERT COIN";
+        currencyFormat = NumberFormat.getCurrencyInstance();
         coinReturnContents = new ArrayList<String>();
+        productManager = new ProductManager();
+
+        display = "INSERT COIN";
         amountInserted = 0.0;
+
     }
 
     public void insertCoin(String coinType) {
@@ -32,7 +36,7 @@ public class VendingMachine {
             coinReturnContents.add(coinType);
         }
 
-        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+
         display = currencyFormat.format(amountInserted);
     }
 
@@ -45,12 +49,6 @@ public class VendingMachine {
     }
 
     public void pressButton(String product) {
-        if (product.equals(COLA)) {
-            display = "PRICE $1.00";
-        } else if (product.equals(CHIPS)) {
-            display = "PRICE $0.50";
-        } else if (product.equals(CANDY)) {
-            display = "PRICE $0.65";
-        }
+        display = "PRICE " + currencyFormat.format(productManager.getPrice(product));
     }
 }
