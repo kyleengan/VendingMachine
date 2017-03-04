@@ -33,9 +33,23 @@ public class VendingMachineTest {
     }
 
     @Test
+    public void whenADimeIsInserted_theDisplayReads10Cents() {
+        subject.insertCoin("DIME");
+
+        assertEquals("$0.10", subject.readDisplay());
+    }
+
+    @Test
     public void whenANickelIsInserted_theDisplayReads5Cents() {
         subject.insertCoin("NICKEL");
 
         assertEquals("$0.05", subject.readDisplay());
+    }
+
+    @Test
+    public void whenAPennyIsInserted_itIsSentToTheCoinReturn() {
+        subject.insertCoin("PENNY");
+
+        assertEquals("PENNY", subject.getCoinReturnContents().get(0));
     }
 }
