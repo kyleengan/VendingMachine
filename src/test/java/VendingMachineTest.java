@@ -50,6 +50,7 @@ public class VendingMachineTest {
     public void whenAPennyIsInserted_itIsSentToTheCoinReturn() {
         subject.insertCoin("PENNY");
 
+        assertEquals(1, subject.getCoinReturnContents().size());
         assertEquals("PENNY", subject.getCoinReturnContents().get(0));
     }
 
@@ -98,5 +99,16 @@ public class VendingMachineTest {
 
         assertEquals("PRICE $0.65", subject.readDisplay());
         assertEquals("$0.25", subject.readDisplay());
+    }
+
+    @Test
+    public void whenTheButtonForAProductIsPressed_andThereIsEnoughMoneyInserted_theProductIsDispensed() {
+        subject.insertCoin("QUARTER");
+        subject.insertCoin("QUARTER");
+
+        subject.pressButton("CHIPS");
+
+        assertEquals(1, subject.getProductDispensationContents().size());
+        assertEquals("CHIPS", subject.getProductDispensationContents().get(0));
     }
 }

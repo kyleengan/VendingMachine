@@ -10,6 +10,7 @@ public class VendingMachine {
 
     private String display;
     private ArrayList<String> coinReturnContents;
+    private ArrayList<String> productDispensationContents;
     private double amountInserted;
     private NumberFormat currencyFormat;
     private ProductManager productManager;
@@ -18,6 +19,7 @@ public class VendingMachine {
     public void start() {
         currencyFormat = NumberFormat.getCurrencyInstance();
         coinReturnContents = new ArrayList<String>();
+        productDispensationContents = new ArrayList<String>();
         productManager = new ProductManager();
 
         display = "INSERT COIN";
@@ -39,10 +41,6 @@ public class VendingMachine {
         resetDisplay();
     }
 
-    public ArrayList<String> getCoinReturnContents() {
-        return coinReturnContents;
-    }
-
     public String readDisplay() {
         String displayValue = display;
 
@@ -52,7 +50,7 @@ public class VendingMachine {
     }
 
     private void resetDisplay() {
-        if (amountInserted <= 0.01) {   // Accounts for Double delta
+        if (amountInserted < 0.01) {   // Accounts for Double delta
             display = "INSERT COIN";
         } else {
             display = currencyFormat.format(amountInserted);
@@ -60,6 +58,24 @@ public class VendingMachine {
     }
 
     public void pressButton(String product) {
-        display = "PRICE " + currencyFormat.format(productManager.getPrice(product));
+        double price = productManager.getPrice(product);
+
+        if (price > amountInserted) {
+            display = "PRICE " + currencyFormat.format(price);
+        } else {
+            productDispensationContents.add(product);
+            display = "THANK YOU";
+            amountInserted = 0;
+        }
+    }
+
+
+
+    public ArrayList<String> getCoinReturnContents() {
+        return coinReturnContents;
+    }
+
+    public ArrayList<String> getProductDispensationContents() {
+        return productDispensationContents;
     }
 }
