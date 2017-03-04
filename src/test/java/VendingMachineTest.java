@@ -157,4 +157,59 @@ public class VendingMachineTest {
         assertTrue(subject.getCoinReturnContents().contains("DIME"));
         assertTrue(subject.getCoinReturnContents().contains("NICKEL"));
     }
+
+    @Test
+    public void whenTheMachineIsStocked_theCorrectNumberOfColaIsPlacedInProductManagerStock() {
+        subject.stockMachine(1, 0, 0);
+
+        subject.insertCoin("QUARTER");
+        subject.insertCoin("QUARTER");
+        subject.insertCoin("QUARTER");
+        subject.insertCoin("QUARTER");
+
+        subject.pressButton("COLA");
+        assertEquals("THANK YOU", subject.readDisplay());
+
+        subject.pressButton("COLA");
+        assertEquals("SOLD OUT", subject.readDisplay());
+    }
+
+    @Test
+    public void whenTheMachineIsStocked_theCorrectNumberOfCandyIsPlacedInProductManagerStock() {
+        subject.stockMachine(0, 1, 0);
+
+        subject.insertCoin("QUARTER");
+        subject.insertCoin("QUARTER");
+        subject.insertCoin("QUARTER");
+
+        subject.pressButton("CANDY");
+        assertEquals("THANK YOU", subject.readDisplay());
+
+        subject.pressButton("CANDY");
+        assertEquals("SOLD OUT", subject.readDisplay());
+    }
+
+    @Test
+    public void whenTheMachineIsStocked_theCorrectNumberOfChipsIsPlacedInProductManagerStock() {
+        subject.stockMachine(0, 0, 1);
+
+        subject.insertCoin("QUARTER");
+        subject.insertCoin("QUARTER");
+
+        subject.pressButton("CHIPS");
+        assertEquals("THANK YOU", subject.readDisplay());
+
+        subject.pressButton("CHIPS");
+        assertEquals("SOLD OUT", subject.readDisplay());
+    }
+
+    @Test
+    public void whenAProductButtonIsPressed_andTheProductIsSoldOut_theDisplayReadsSOLD_OUT() {
+        subject.stockMachine(0, 0, 0);
+
+        subject.pressButton("COLA");
+
+        assertEquals("SOLD OUT", subject.readDisplay());
+        assertEquals("INSERT COIN", subject.readDisplay());
+    }
 }

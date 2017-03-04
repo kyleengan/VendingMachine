@@ -16,6 +16,7 @@ public class VendingMachine {
     private ProductManager productManager;
 
 
+
     public void start() {
         currencyFormat = NumberFormat.getCurrencyInstance();
         coinReturnContents = new ArrayList<String>();
@@ -60,18 +61,31 @@ public class VendingMachine {
     public void pressButton(String product) {
         double price = productManager.getPrice(product);
 
+        if ( ! productManager.checkProduct(product)) {
+            display = "SOLD OUT";
+            return;
+        }
+
         if (price > amountInserted) {
             display = "PRICE " + currencyFormat.format(price);
         } else {
-            productDispensationContents.add(product);
-            display = "THANK YOU";
+            if (productManager.dispense(product)) {
+                productDispensationContents.add(product);
+                display = "THANK YOU";
 
-            returnCoins(price);
+                returnCoins(price);
+            } else {
+                display = "SOLD OUT";
+            }
         }
     }
 
     public void pressReturnCoinsButton() {
         returnCoins(0.0);
+    }
+
+    public void stockMachine(int colaStock, int candyStock, int chipsStock) {
+        productManager = new ProductManager(colaStock, candyStock, chipsStock);
     }
 
     private void returnCoins(double price) {
