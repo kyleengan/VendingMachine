@@ -2,6 +2,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class VendingMachineTest {
 
@@ -121,5 +122,24 @@ public class VendingMachineTest {
 
         assertEquals("THANK YOU", subject.readDisplay());
         assertEquals("INSERT COIN", subject.readDisplay());
+    }
+
+    @Test
+    public void whenTheButtonForAProductIsPressed_andThereIsTooMuchMoneyInserted_correctChangeIsDispensed() {
+        subject.insertCoin("QUARTER");
+        subject.insertCoin("QUARTER");
+        subject.insertCoin("QUARTER");
+        subject.insertCoin("QUARTER");
+        subject.insertCoin("NICKEL");
+
+        subject.pressButton("CANDY");
+
+        assertEquals(3, subject.getCoinReturnContents().size());
+        assertTrue(subject.getCoinReturnContents().contains("QUARTER"));
+        assertTrue(subject.getCoinReturnContents().contains("DIME"));
+        assertTrue(subject.getCoinReturnContents().contains("NICKEL"));
+
+        assertEquals(1, subject.getProductDispensationContents().size());
+        assertEquals("CANDY", subject.getProductDispensationContents().get(0));
     }
 }

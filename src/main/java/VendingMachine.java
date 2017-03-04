@@ -65,8 +65,24 @@ public class VendingMachine {
         } else {
             productDispensationContents.add(product);
             display = "THANK YOU";
-            amountInserted = 0;
         }
+
+        while(price + 0.01 < amountInserted) {
+            if (price + 0.25 <= amountInserted) {
+                coinReturnContents.add(QUARTER);
+                amountInserted -= 0.25;
+            }
+            if (price + 0.10 <= amountInserted) {
+                coinReturnContents.add(DIME);
+                amountInserted -= 0.10;
+            }
+            if (price + 0.05 <= amountInserted) {
+                coinReturnContents.add(NICKEL);
+                amountInserted -= 0.05;
+            }
+        }
+
+        amountInserted = 0.0;
     }
 
 
