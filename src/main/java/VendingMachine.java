@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class VendingMachine {
 
     private static final String QUARTER = "QUARTER";
+    private static final String NICKEL = "NICKEL";
 
     private String display;
     private ArrayList<String> coinReturnContents;
@@ -19,6 +20,8 @@ public class VendingMachine {
     public void insertCoin(String coinType) {
         if (coinType.equals(QUARTER)) {
             amountInserted += 0.25;
+        } else if (coinType.equals(NICKEL)) {
+            amountInserted += 0.05;
         } else {
             coinReturnContents.add(coinType);
         }

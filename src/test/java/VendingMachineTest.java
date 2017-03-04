@@ -31,4 +31,11 @@ public class VendingMachineTest {
 
         assertEquals("$0.25", subject.readDisplay());
     }
+
+    @Test
+    public void whenANickelIsInserted_theDisplayReads5Cents() {
+        subject.insertCoin("NICKEL");
+
+        assertEquals("$0.05", subject.readDisplay());
+    }
 }
