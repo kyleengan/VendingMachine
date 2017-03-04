@@ -52,4 +52,13 @@ public class VendingMachineTest {
 
         assertEquals("PENNY", subject.getCoinReturnContents().get(0));
     }
+
+    @Test
+    public void whenAQuarterAndANickelAndADimeAreInserted_theDisplayReads40Cents() {
+        subject.insertCoin("QUARTER");
+        subject.insertCoin("NICKEL");
+        subject.insertCoin("DIME");
+
+        assertEquals("$0.40", subject.readDisplay());
+    }
 }
