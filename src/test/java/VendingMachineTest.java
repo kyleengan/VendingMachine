@@ -111,4 +111,15 @@ public class VendingMachineTest {
         assertEquals(1, subject.getProductDispensationContents().size());
         assertEquals("CHIPS", subject.getProductDispensationContents().get(0));
     }
+
+    @Test
+    public void whenTheButtonForAProductIsPressed_andThereIsEnoughMoneyInserted_theDisplayReadsTheCorrectValuesOnSubsequentChecks() {
+        subject.insertCoin("QUARTER");
+        subject.insertCoin("QUARTER");
+
+        subject.pressButton("CHIPS");
+
+        assertEquals("THANK YOU", subject.readDisplay());
+        assertEquals("INSERT COIN", subject.readDisplay());
+    }
 }
