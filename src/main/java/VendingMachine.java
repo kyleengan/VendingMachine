@@ -65,8 +65,16 @@ public class VendingMachine {
         } else {
             productDispensationContents.add(product);
             display = "THANK YOU";
-        }
 
+            returnCoins(price);
+        }
+    }
+
+    public void pressReturnCoinsButton() {
+        returnCoins(0.0);
+    }
+
+    private void returnCoins(double price) {
         while(price + 0.01 < amountInserted) {
             if (price + 0.25 <= amountInserted) {
                 coinReturnContents.add(QUARTER);
@@ -86,7 +94,6 @@ public class VendingMachine {
     }
 
 
-
     public ArrayList<String> getCoinReturnContents() {
         return coinReturnContents;
     }
@@ -94,4 +101,6 @@ public class VendingMachine {
     public ArrayList<String> getProductDispensationContents() {
         return productDispensationContents;
     }
+
+
 }

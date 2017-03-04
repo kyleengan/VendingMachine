@@ -142,4 +142,19 @@ public class VendingMachineTest {
         assertEquals(1, subject.getProductDispensationContents().size());
         assertEquals("CANDY", subject.getProductDispensationContents().get(0));
     }
+
+    @Test
+    public void whenTheReturnCoinButtonIsPressed_theAmountInsertedSoFarIsReturned() {
+        subject.insertCoin("DIME");
+        subject.insertCoin("DIME");
+        subject.insertCoin("DIME");
+        subject.insertCoin("DIME");
+
+        subject.pressReturnCoinsButton();
+
+        assertEquals(3, subject.getCoinReturnContents().size());
+        assertTrue(subject.getCoinReturnContents().contains("QUARTER"));
+        assertTrue(subject.getCoinReturnContents().contains("DIME"));
+        assertTrue(subject.getCoinReturnContents().contains("NICKEL"));
+    }
 }
