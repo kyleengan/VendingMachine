@@ -63,23 +63,31 @@ public class VendingMachineTest {
     }
 
     @Test
-    public void whenTheButtonForColaIsPressed_theDisplayShowsTheCorrectPrice() {
+    public void whenTheButtonForColaIsPressed_andThereIsNotEnoughMoneyInserted_theDisplayShowsTheCorrectPrice() {
         subject.pressButton("COLA");
 
         assertEquals("PRICE $1.00", subject.readDisplay());
     }
 
     @Test
-    public void whenTheButtonForChipsIsPressed_theDisplayShowsTheCorrectPrice() {
+    public void whenTheButtonForChipsIsPressed_andThereIsNotEnoughMoneyInserted_theDisplayShowsTheCorrectPrice() {
         subject.pressButton("CHIPS");
 
         assertEquals("PRICE $0.50", subject.readDisplay());
     }
 
     @Test
-    public void whenTheButtonForCandyIsPressed_theDisplayShowsTheCorrectPrice() {
+    public void whenTheButtonForCandyIsPressed_andThereIsNotEnoughMoneyInserted_theDisplayShowsTheCorrectPrice() {
         subject.pressButton("CANDY");
 
         assertEquals("PRICE $0.65", subject.readDisplay());
+    }
+
+    @Test
+    public void whenTheDisplayIsCheckedASecondTime_afterDisplayingThePriceOfAnItem_withNoMoneyInserted_itReadsINSERT_COIN() {
+        subject.pressButton("CANDY");
+
+        assertEquals("PRICE $0.65", subject.readDisplay());
+        assertEquals("INSERT COIN", subject.readDisplay());
     }
 }

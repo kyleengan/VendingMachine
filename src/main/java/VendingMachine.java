@@ -36,8 +36,7 @@ public class VendingMachine {
             coinReturnContents.add(coinType);
         }
 
-
-        display = currencyFormat.format(amountInserted);
+        resetDisplay();
     }
 
     public ArrayList<String> getCoinReturnContents() {
@@ -45,7 +44,19 @@ public class VendingMachine {
     }
 
     public String readDisplay() {
-        return display;
+        String displayValue = display;
+
+        resetDisplay();
+
+        return displayValue;
+    }
+
+    private void resetDisplay() {
+        if (amountInserted <= 0.01) {   // Accounts for Double delta
+            display = "INSERT COIN";
+        } else {
+            display = currencyFormat.format(amountInserted);
+        }
     }
 
     public void pressButton(String product) {
