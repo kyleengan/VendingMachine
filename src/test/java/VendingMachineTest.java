@@ -20,8 +20,15 @@ public class VendingMachineTest {
 
     @Test
     public void whenAnInvalidCoinIsInserted_theCoinIsSentToCoinReturn() {
-        subject.insertCoin();
+        subject.insertCoin("CHUCK E. CHEESE ARCADE TOKEN");
 
         assertEquals(1, subject.getCoinReturnContents().size());
+    }
+
+    @Test
+    public void whenAQuarterIsInserted_theDisplayReads25Cents() {
+        subject.insertCoin("QUARTER");
+
+        assertEquals("$0.25", subject.readDisplay());
     }
 }
