@@ -2,6 +2,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class VendingMachineTest {
@@ -211,5 +212,36 @@ public class VendingMachineTest {
 
         assertEquals("SOLD OUT", subject.readDisplay());
         assertEquals("INSERT COIN", subject.readDisplay());
+    }
+
+    @Test
+    public void whenTheReturnCoinsButtonIsPressed_andThereAreNoQuarters_theCorrectChangeIsStillDispensed() {
+        subject.stockCoins(0, 0, 0);
+
+        subject.insertCoin("DIME");
+        subject.insertCoin("DIME");
+        subject.insertCoin("DIME");
+        subject.insertCoin("DIME");
+        subject.insertCoin("NICKEL");
+        subject.insertCoin("NICKEL");
+
+        subject.pressReturnCoinsButton();
+
+        assertEquals(6, subject.getCoinReturnContents().size());
+        assertFalse(subject.getCoinReturnContents().contains("QUARTER"));
+    }
+
+    @Test
+    public void whenTheReturnCoinsButtonIsPressed_andThereIsNoMoneyInserted_noCoinsAreDispensed() {
+        subject.pressReturnCoinsButton();
+
+        assertEquals(0, subject.getCoinReturnContents().size());
+    }
+
+    @Test
+    public void whenTheMachineCannotMakeChange_theDisplayReadsEXACT_CHANGE_ONLY() {
+        subject.stockCoins(0,0,0);
+
+        assertEquals("EXACT CHANGE ONLY", subject.readDisplay());
     }
 }

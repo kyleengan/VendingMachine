@@ -3,9 +3,9 @@ import java.util.ArrayList;
 
 public class VendingMachine {
 
-    private static final String QUARTER = "QUARTER";
-    private static final String NICKEL = "NICKEL";
-    private static final String DIME = "DIME";
+    public static final String QUARTER = "QUARTER";
+    public static final String NICKEL = "NICKEL";
+    public static final String DIME = "DIME";
 
 
     private String display;
@@ -14,7 +14,7 @@ public class VendingMachine {
     private double amountInserted;
     private NumberFormat currencyFormat;
     private ProductManager productManager;
-
+    private CoinManager coinManager;
 
 
     public void start() {
@@ -22,19 +22,26 @@ public class VendingMachine {
         coinReturnContents = new ArrayList<String>();
         productDispensationContents = new ArrayList<String>();
         productManager = new ProductManager();
+        coinManager = new CoinManager();
 
         display = "INSERT COIN";
         amountInserted = 0.0;
-
     }
 
     public void insertCoin(String coinType) {
+        if (coinType == null) {
+            return;
+        }
+
         if (coinType.equals(QUARTER)) {
             amountInserted += 0.25;
+            coinManager.addCoin(QUARTER);
         } else if (coinType.equals(DIME)) {
             amountInserted += 0.1;
+            coinManager.addCoin(DIME);
         } else if (coinType.equals(NICKEL)) {
             amountInserted += 0.05;
+            coinManager.addCoin(NICKEL);
         } else {
             coinReturnContents.add(coinType);
         }
@@ -52,19 +59,24 @@ public class VendingMachine {
 
     private void resetDisplay() {
         if (amountInserted < 0.01) {   // Accounts for Double delta
-            display = "INSERT COIN";
+            if (coinManager.hasChange()) {
+                display = "INSERT COIN";
+            } else {
+                display = "EXACT CHANGE ONLY";
+            }
+
         } else {
             display = currencyFormat.format(amountInserted);
         }
     }
 
     public void pressButton(String product) {
-        double price = productManager.getPrice(product);
-
-        if ( ! productManager.checkProduct(product)) {
+        if ( ! productManager.checkProduct(product) || product == null) {
             display = "SOLD OUT";
             return;
         }
+
+        double price = productManager.getPrice(product);
 
         if (price > amountInserted) {
             display = "PRICE " + currencyFormat.format(price);
@@ -88,19 +100,30 @@ public class VendingMachine {
         productManager = new ProductManager(colaStock, candyStock, chipsStock);
     }
 
+    public void stockCoins(int quarterStock, int dimeStock, int nickelStock) {
+        coinManager = new CoinManager(quarterStock, dimeStock, nickelStock);
+        resetDisplay();
+    }
+
     private void returnCoins(double price) {
         while(price + 0.01 < amountInserted) {
             if (price + 0.25 <= amountInserted) {
-                coinReturnContents.add(QUARTER);
-                amountInserted -= 0.25;
+                if (coinManager.returnCoin(QUARTER)) {
+                    coinReturnContents.add(QUARTER);
+                    amountInserted -= 0.25;
+                }
             }
             if (price + 0.10 <= amountInserted) {
-                coinReturnContents.add(DIME);
-                amountInserted -= 0.10;
+                if (coinManager.returnCoin(DIME)) {
+                    coinReturnContents.add(DIME);
+                    amountInserted -= 0.10;
+                }
             }
             if (price + 0.05 <= amountInserted) {
-                coinReturnContents.add(NICKEL);
-                amountInserted -= 0.05;
+                if (coinManager.returnCoin(NICKEL)) {
+                    coinReturnContents.add(NICKEL);
+                    amountInserted -= 0.05;
+                }
             }
         }
 
