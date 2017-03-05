@@ -8,4 +8,5 @@ Instead, please see the tests for viewing the functionality of the vending machi
 
 
 Thank you for your time and interest!
+
 Kyle Engan
